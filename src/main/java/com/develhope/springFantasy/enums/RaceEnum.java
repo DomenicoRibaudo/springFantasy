@@ -4,5 +4,5 @@ public enum RaceEnum {
     HUMAN,
     ORC,
     ELF,
-    CharacterClassEnum, GNOME
+    GNOME
 }

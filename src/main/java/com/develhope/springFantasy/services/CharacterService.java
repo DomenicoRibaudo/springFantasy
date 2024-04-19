@@ -2,6 +2,7 @@ package com.develhope.springFantasy.services;
 
 import com.develhope.springFantasy.entities.Character;
 import com.develhope.springFantasy.enums.RaceEnum;
+import com.develhope.springFantasy.enums.SpecialMovesEnum;
 import com.develhope.springFantasy.repositories.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class CharacterService {
     private CharacterRepository characterRepository;
 
     @Autowired
-    private FightService fightService;
+    private FightUtilities fightUtilities;
 
     public Character createCharacter(Character character) {
         return characterRepository.save(character);
@@ -62,10 +63,23 @@ public class CharacterService {
         return characterRepository.findCharacterByRace(inputValue);
     }
 
-    public String characterFight(Character attackCharacter, Character defendCharacter) {
-        String result = fightService.characterFight(attackCharacter, defendCharacter);
+    public String characterPhysicFight(Character attackCharacter, Long defenderId) {
+        Optional<Character> defenderOptional = characterRepository.findById(defenderId);
+        String result = "";
+        if(defenderOptional.isPresent()) {
+             result = fightUtilities.characterPhysicalFight(attackCharacter, defenderOptional.get());
+        }
         return result;
     }
 
+    public String characterMagicFight(Character attackCharacter, Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
+        Optional<Character> defenderOptional = characterRepository.findById(defenderId);
+        String result = "";
+        if(defenderOptional.isPresent()) {
+            result = fightUtilities.characterMagicalFight(attackCharacter, defenderOptional.get(), specialAttack);
+            defenderOptional.get().setLifePoints(defenderOptional.get().getLifePoints());
+        }
+        return result;
+    }
 
 }

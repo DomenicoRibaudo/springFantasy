@@ -36,13 +36,11 @@ public class Character {
     private Integer lifePoints;
 
     @Column
-    private Integer damage;
-
-    @Column
     private Integer manaPoints;
 
     @Column
     private boolean isAlive;
+
 
 
     public Character() {
@@ -58,7 +56,6 @@ public class Character {
         this.level = level;
         this.description = description;
         this.lifePoints = lifePoints;
-        this.damage = damage;
         this.manaPoints = manaPoints;
         this.isAlive = isAlive;
         this.physicalStrength = physicalStrength;
@@ -129,14 +126,6 @@ public class Character {
         this.lifePoints = lifePoints;
     }
 
-    public Integer getDamage() {
-        return damage;
-    }
-
-    public void setDamage(Integer damage) {
-        this.damage = damage;
-    }
-
     public Integer getManaPoints() {
         return manaPoints;
     }
@@ -145,7 +134,7 @@ public class Character {
         this.manaPoints = manaPoints;
     }
 
-    public boolean isAlive(boolean b) {
+    public boolean isAlive() {
         return isAlive;
     }
 

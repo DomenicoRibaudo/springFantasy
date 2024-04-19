@@ -2,6 +2,7 @@ package com.develhope.springFantasy.controllers;
 
 import com.develhope.springFantasy.entities.Character;
 import com.develhope.springFantasy.enums.RaceEnum;
+import com.develhope.springFantasy.enums.SpecialMovesEnum;
 import com.develhope.springFantasy.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,9 +64,14 @@ public class CharacterController {
         return ResponseEntity.ok().body(characterService.getCharactersByRace(raceEnum));
     }
 
-    @GetMapping("/fight")
-    public String characterFight(Character attackCharacter, Character defendCharacter) {
-        return characterService.characterFight(attackCharacter, defendCharacter);
+    @PutMapping ("/fight/physical/{defenderId}")
+    public ResponseEntity<String> characterPhysicFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId) {
+        return ResponseEntity.ok().body(characterService.characterPhysicFight(attackCharacter, defenderId));
+    }
+
+    @PutMapping("/fight/magical/{defenderId}")
+    public ResponseEntity<String> characterMagicalFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
+        return ResponseEntity.ok().body(characterService.characterMagicFight(attackCharacter, defenderId, specialAttack));
     }
 
 }
