@@ -17,7 +17,7 @@ public class CharacterController {
     @Autowired
     private CharacterService characterService;
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public ResponseEntity<Character> create(Character character) {
         return ResponseEntity.ok().body(characterService.createCharacter(character));
     }
