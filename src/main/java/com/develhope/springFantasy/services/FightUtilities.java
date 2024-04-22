@@ -29,12 +29,14 @@ public class FightUtilities {
     public String characterMagicalFight(Character attacker, Character defender, SpecialMovesEnum specialAttack) throws Exception {
         Integer specialDamage = calculateMagicalDamage(attacker, specialAttack);
         defender.setLifePoints(defender.getLifePoints() - specialDamage);
+        //Riduci il mana del costo della skill attivata
+        attacker.setManaPoints(attacker.getManaPoints() - specialAttack.getActivationCost());
         checkLifeCharacter(defender);
         if (!defender.isAlive()) {
-            String message = defender.getName() + " defeated after " + specialAttack + "that made " + specialDamage + " damage" ;
+            String message = defender.getName() + " defeated after special attack:" + specialAttack + " that made " + specialDamage + " damage" ;
             return message;
         } else {
-            String message2 = defender.getName() + " is still alive with " + defender.getLifePoints();
+            String message2 = defender.getName() + " is still alive with " + defender.getLifePoints() + " life points";
             defender.setLifePoints(defender.getLifePoints());
             return message2;
         }
@@ -52,14 +54,14 @@ public class FightUtilities {
         Random random = new Random();
         Integer multiplierCritDamage = random.nextInt(10) + 1;
         if (attacker.getManaPoints() <= specialAttack.getActivationCost()) {
-            throw new Exception("You don't have enough mana");
+            throw new Exception("You don't have enough mana, select other moves");
         } else {
             Integer magicDamage = specialAttack.getDamage() * multiplierCritDamage;
-            //Riduci il mana del costo della skill attivata
-            attacker.setManaPoints(attacker.getManaPoints() - specialAttack.getActivationCost());
             return magicDamage;
         }
     }
+
+
 
     //Utility methods
     public void checkLifeCharacter(Character defender) {

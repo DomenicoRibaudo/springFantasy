@@ -64,7 +64,7 @@ public class CharacterController {
         return ResponseEntity.ok().body(characterService.getCharactersByRace(raceEnum));
     }
 
-    @PutMapping ("/fight/physical/{defenderId}")
+    @PutMapping("/fight/physical/{defenderId}")
     public ResponseEntity<String> characterPhysicFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId) {
         return ResponseEntity.ok().body(characterService.characterPhysicFight(attackCharacter, defenderId));
     }
@@ -73,5 +73,5 @@ public class CharacterController {
     public ResponseEntity<String> characterMagicalFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
         return ResponseEntity.ok().body(characterService.characterMagicFight(attackCharacter, defenderId, specialAttack));
     }
-
 }
+

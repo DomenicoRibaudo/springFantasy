@@ -34,6 +34,7 @@ public class CharacterService {
             characterOptional.get().setName(character.getName());
             characterOptional.get().setCharacterClassEnum(character.getCharacterClassEnum());
             characterOptional.get().setLevel(character.getLevel());
+            characterOptional.get().setLifePoints(character.getLifePoints());
             Character characterUpdated = characterRepository.save(characterOptional.get());
             return Optional.of(characterUpdated);
         }
@@ -66,18 +67,21 @@ public class CharacterService {
     public String characterPhysicFight(Character attackCharacter, Long defenderId) {
         Optional<Character> defenderOptional = characterRepository.findById(defenderId);
         String result = "";
-        if(defenderOptional.isPresent()) {
-             result = fightUtilities.characterPhysicalFight(attackCharacter, defenderOptional.get());
+        if (defenderOptional.isPresent()) {
+            result = fightUtilities.characterPhysicalFight(attackCharacter, defenderOptional.get());
+            characterRepository.save(defenderOptional.get());
         }
         return result;
+
     }
 
     public String characterMagicFight(Character attackCharacter, Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
         Optional<Character> defenderOptional = characterRepository.findById(defenderId);
         String result = "";
-        if(defenderOptional.isPresent()) {
+        if (defenderOptional.isPresent()) {
             result = fightUtilities.characterMagicalFight(attackCharacter, defenderOptional.get(), specialAttack);
-            defenderOptional.get().setLifePoints(defenderOptional.get().getLifePoints());
+            characterRepository.save(defenderOptional.get());
+            characterRepository.save(attackCharacter);
         }
         return result;
     }
