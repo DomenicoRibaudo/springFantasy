@@ -1,6 +1,7 @@
 package com.develhope.springFantasy.services;
 
 import com.develhope.springFantasy.entities.Character;
+import com.develhope.springFantasy.enums.FightEnum;
 import com.develhope.springFantasy.enums.RaceEnum;
 import com.develhope.springFantasy.enums.SpecialMovesEnum;
 import com.develhope.springFantasy.repositories.CharacterRepository;
@@ -32,6 +33,7 @@ public class CharacterService {
             characterOptional.get().setDescription(character.getDescription());
             characterOptional.get().setRace(character.getRace());
             characterOptional.get().setName(character.getName());
+            characterOptional.get().setPhysicalStrength(character.getPhysicalStrength());
             characterOptional.get().setCharacterClassEnum(character.getCharacterClassEnum());
             characterOptional.get().setLevel(character.getLevel());
             characterOptional.get().setLifePoints(character.getLifePoints());
@@ -64,15 +66,19 @@ public class CharacterService {
         return characterRepository.findCharacterByRace(inputValue);
     }
 
-    public String characterPhysicFight(Character attackCharacter, Long defenderId) {
+    public String characterFight(Long defenderId, Long attackerId, FightEnum fightEnum, SpecialMovesEnum specialMovesEnum) throws Exception {
         Optional<Character> defenderOptional = characterRepository.findById(defenderId);
+        Optional<Character> attackerOptional = characterRepository.findById(attackerId);
         String result = "";
-        if (defenderOptional.isPresent()) {
-            result = fightUtilities.characterPhysicalFight(attackCharacter, defenderOptional.get());
+        if(defenderOptional.isPresent() && attackerOptional.isPresent()) {
+            if (fightEnum.equals(FightEnum.PHYSICAL)){
+                result = fightUtilities.characterPhysicalFight(attackerOptional.get(), defenderOptional.get());
+            } else {
+                result = fightUtilities.characterMagicalFight(attackerOptional.get(), defenderOptional.get(), specialMovesEnum);
+            }
             characterRepository.save(defenderOptional.get());
         }
         return result;
-
     }
 
     public String characterMagicFight(Character attackCharacter, Long defenderId, SpecialMovesEnum specialAttack) throws Exception {

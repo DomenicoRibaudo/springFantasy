@@ -1,6 +1,7 @@
 package com.develhope.springFantasy.controllers;
 
 import com.develhope.springFantasy.entities.Character;
+import com.develhope.springFantasy.enums.FightEnum;
 import com.develhope.springFantasy.enums.RaceEnum;
 import com.develhope.springFantasy.enums.SpecialMovesEnum;
 import com.develhope.springFantasy.services.CharacterService;
@@ -64,14 +65,9 @@ public class CharacterController {
         return ResponseEntity.ok().body(characterService.getCharactersByRace(raceEnum));
     }
 
-    @PutMapping("/fight/physical/{defenderId}")
-    public ResponseEntity<String> characterPhysicFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId) {
-        return ResponseEntity.ok().body(characterService.characterPhysicFight(attackCharacter, defenderId));
-    }
-
-    @PutMapping("/fight/magical/{defenderId}")
-    public ResponseEntity<String> characterMagicalFight(@RequestBody Character attackCharacter, @PathVariable Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
-        return ResponseEntity.ok().body(characterService.characterMagicFight(attackCharacter, defenderId, specialAttack));
+    @PutMapping ("/fight/{defenderId}/{attackerId}")
+    public ResponseEntity<String> characterPhysicFight(@PathVariable Long defenderId, @PathVariable Long attackerId, @RequestParam FightEnum fight,
+                                                       @RequestParam(required = false) SpecialMovesEnum specialMoves) throws Exception {
+        return ResponseEntity.ok().body(characterService.characterFight(defenderId, attackerId, fight, specialMoves));
     }
 }
-

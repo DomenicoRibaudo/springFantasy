@@ -2,8 +2,6 @@ package com.develhope.springFantasy.services;
 
 import com.develhope.springFantasy.entities.Character;
 import com.develhope.springFantasy.enums.SpecialMovesEnum;
-import com.develhope.springFantasy.repositories.CharacterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -42,23 +40,31 @@ public class FightUtilities {
         }
     }
 
-    private Integer calculatePhysicalDamage(Character attacker) {
+    private Integer calculateCritDamage(Integer baseDamage) {
         Random random = new Random();
-        Integer multiplierCritDamage = random.nextInt(10) + 1;
-        Integer physicalDamage = multiplierCritDamage * attacker.getPhysicalStrength();
+        Integer finalDamage = baseDamage;
+        Integer critChance = random.nextInt(1);
+
+        if (critChance == 0) {
+            Integer multiplierCritDamage = random.nextInt(10) + 1;
+            finalDamage = multiplierCritDamage * baseDamage;
+        }
+
+        return finalDamage;
+    }
+
+    private Integer calculatePhysicalDamage(Character attacker) {
+        Integer physicalDamage = calculateCritDamage(attacker.getPhysicalStrength());
         return physicalDamage;
     }
 
     private Integer calculateMagicalDamage(Character attacker, SpecialMovesEnum specialAttack) throws Exception {
-        //Randomizza un moltiplicatore di crit randomized
-        Random random = new Random();
-        Integer multiplierCritDamage = random.nextInt(10) + 1;
+        Integer magicDamage = calculateCritDamage(specialAttack.getDamage());
+
         if (attacker.getManaPoints() <= specialAttack.getActivationCost()) {
             throw new Exception("You don't have enough mana, select other moves");
-        } else {
-            Integer magicDamage = specialAttack.getDamage() * multiplierCritDamage;
-            return magicDamage;
         }
+        return magicDamage;
     }
 
 
@@ -69,8 +75,6 @@ public class FightUtilities {
             defender.setAlive(false);
         }
     }
-
-
 
 }
 
