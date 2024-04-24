@@ -3,7 +3,7 @@ package com.develhope.springFantasy.enums;
 public enum FightEnum {
 
     PHYSICAL("physical"),
-    MAGICAL("magical"),;
+    MAGICAL("magical");
 
     private final String fight;
 
