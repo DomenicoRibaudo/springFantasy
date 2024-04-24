@@ -41,7 +41,7 @@ public class CharacterController {
     public ResponseEntity<Character> updateCharacter(@PathVariable Long id, @RequestBody Character character) {
         Optional<Character> characterOptional = characterService.updateCharacter(id, character);
         if (characterOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().body(characterOptional.get());
     }

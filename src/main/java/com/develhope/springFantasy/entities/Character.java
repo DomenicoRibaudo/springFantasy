@@ -3,6 +3,7 @@ package com.develhope.springFantasy.entities;
 import com.develhope.springFantasy.enums.CharacterClassEnum;
 import com.develhope.springFantasy.enums.RaceEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "characters")
@@ -11,19 +12,19 @@ public class Character {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "character_class", nullable = false, length = 1)
+    @Column
     private CharacterClassEnum characterClassEnum;
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "race", nullable = false, length = 1)
+    @Column
     private RaceEnum race;
 
-    @Column(nullable = false)
+    @Column
     private Integer level;
 
     @Column
@@ -47,20 +48,18 @@ public class Character {
     }
 
 
-    public Character(long id, String name, CharacterClassEnum characterClassEnum, RaceEnum race, Integer level, String description, Integer lifePoints,
-                     Integer damage, Integer manaPoints, Boolean isAlive, Integer physicalStrength ) {
+    public Character(Long id, String name, CharacterClassEnum characterClassEnum, RaceEnum race, Integer level, Integer physicalStrength, String description, Integer lifePoints, Integer manaPoints, boolean isAlive) {
         this.id = id;
         this.name = name;
         this.characterClassEnum = characterClassEnum;
         this.race = race;
         this.level = level;
+        this.physicalStrength = physicalStrength;
         this.description = description;
         this.lifePoints = lifePoints;
         this.manaPoints = manaPoints;
         this.isAlive = isAlive;
-        this.physicalStrength = physicalStrength;
     }
-
 
     public Long getId() {
         return id;

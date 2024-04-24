@@ -7,7 +7,7 @@ public enum CharacterClassEnum {
     WIZARD("Wizard"),
     ELF("Elf");
 
-    private String className;
+    private final String className;
 
     CharacterClassEnum(String className){
         this.className = className;
