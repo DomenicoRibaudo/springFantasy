@@ -27,6 +27,14 @@ public class CharacterService {
         return characterRepository.findById(id);
     }
 
+
+    /**
+     * Updates an existing character in the database.
+     *
+     * @param id        the id of the character to update
+     * @param character the updated character information
+     * @return the updated character, or an empty optional if the character could not be found
+     */
     public Optional<Character> updateCharacter(Long id, Character character) {
         Optional<Character> characterOptional = characterRepository.findById(id);
         if (characterOptional.isPresent()) {
@@ -43,6 +51,13 @@ public class CharacterService {
         return Optional.empty();
     }
 
+
+    /**
+     * Deletes a character from the database.
+     *
+     * @param id the id of the character to delete
+     * @return the deleted character, or an empty optional if the character could not be found
+     */
     public Optional<Character> deleteCharacter(Long id) {
         Optional<Character> characterOptional = characterRepository.findById(id);
         if (characterOptional.isPresent()) {
@@ -66,12 +81,24 @@ public class CharacterService {
         return characterRepository.findCharacterByRace(inputValue);
     }
 
+
+    /**
+     * Calculates the result of a fight between two characters.
+     *
+     * @param defenderId       the id of the character who is the defender
+     * @param attackerId       the id of the character who is the attacker
+     * @param fightEnum        the type of fight to be performed (physical or magical)
+     * @param specialMovesEnum the special move to be used in the magical fight
+     * @return a message indicating the result of the fight
+     * @throws Exception if an error occurs during the fight
+     */
+
     public String characterFight(Long defenderId, Long attackerId, FightEnum fightEnum, SpecialMovesEnum specialMovesEnum) throws Exception {
         Optional<Character> defenderOptional = characterRepository.findById(defenderId);
         Optional<Character> attackerOptional = characterRepository.findById(attackerId);
         String result = "";
-        if(defenderOptional.isPresent() && attackerOptional.isPresent()) {
-            if (fightEnum.equals(FightEnum.PHYSICAL)){
+        if (defenderOptional.isPresent() && attackerOptional.isPresent()) {
+            if (fightEnum.equals(FightEnum.PHYSICAL)) {
                 result = fightUtilities.characterPhysicalFight(attackerOptional.get(), defenderOptional.get());
             } else {
                 result = fightUtilities.characterMagicalFight(attackerOptional.get(), defenderOptional.get(), specialMovesEnum);
@@ -80,6 +107,16 @@ public class CharacterService {
         }
         return result;
     }
+
+    /**
+     * Calculates the result of a magical fight between a character and another character.
+     *
+     * @param attackCharacter  the character who is performing the attack
+     * @param defenderId         the character who is the defender picked by ID
+     * @param specialAttack    the special move to be used in the fight
+     * @return a message indicating the result of the fight
+     * @throws Exception if an error occurs during the fight
+     */
 
     public String characterMagicFight(Character attackCharacter, Long defenderId, SpecialMovesEnum specialAttack) throws Exception {
         Optional<Character> defenderOptional = characterRepository.findById(defenderId);

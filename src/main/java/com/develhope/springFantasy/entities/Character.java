@@ -19,7 +19,6 @@ public class Character {
     @Column
     private CharacterClassEnum characterClassEnum;
 
-
     @Enumerated(EnumType.STRING)
     @Column
     private RaceEnum race;
@@ -41,7 +40,6 @@ public class Character {
 
     @Column
     private boolean isAlive;
-
 
 
     public Character() {

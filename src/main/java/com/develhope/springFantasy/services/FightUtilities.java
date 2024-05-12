@@ -7,9 +7,13 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-
 public class FightUtilities {
 
+    /**
+     * Calculates the physical damage dealt by the attacker based on their physical strength.
+     * @param attacker the character who is attacking
+     * @return the physical damage dealt
+     */
     public String characterPhysicalFight(Character attacker, Character defender) {
         Integer physicalDamage = calculatePhysicalDamage(attacker);
         defender.setLifePoints(defender.getLifePoints() - physicalDamage);
@@ -23,6 +27,14 @@ public class FightUtilities {
         }
 
     }
+
+    /**
+     * Calculates the magical damage dealt by the attacker based on their magical power and the type of the special attack.
+     * @param attacker the character who is attacking
+     * @param specialAttack the type of the special attack
+     * @return the magical damage dealt
+     * @throws Exception if the character does not have enough mana to cast the special attack
+     */
 
     public String characterMagicalFight(Character attacker, Character defender, SpecialMovesEnum specialAttack) throws Exception {
         Integer specialDamage = calculateMagicalDamage(attacker, specialAttack);
@@ -40,6 +52,13 @@ public class FightUtilities {
         }
     }
 
+
+    /**
+     * Calculates the critical damage dealt by the attacker based on their physical strength.
+     *
+     * @param baseDamage the base damage of the attack
+     * @return the critical damage dealt
+     */
     private Integer calculateCritDamage(Integer baseDamage) {
         Random random = new Random();
         Integer finalDamage = baseDamage;
@@ -53,11 +72,25 @@ public class FightUtilities {
         return finalDamage;
     }
 
+    /**
+     * Calculates the physical damage dealt by the attacker based on their physical strength.
+     *
+     * @param attacker the character who is attacking
+     * @return the physical damage dealt
+     */
     private Integer calculatePhysicalDamage(Character attacker) {
         Integer physicalDamage = calculateCritDamage(attacker.getPhysicalStrength());
         return physicalDamage;
     }
 
+    /**
+     * Calculates the magical damage dealt by the attacker based on their magical power and the type of the special attack.
+     *
+     * @param attacker the character who is attacking
+     * @param specialAttack the type of the special attack
+     * @return the magical damage dealt
+     * @throws Exception if the character does not have enough mana to cast the special attack
+     */
     private Integer calculateMagicalDamage(Character attacker, SpecialMovesEnum specialAttack) throws Exception {
         Integer magicDamage = calculateCritDamage(specialAttack.getDamage());
 
@@ -68,8 +101,12 @@ public class FightUtilities {
     }
 
 
-
     //Utility methods
+    /**
+     * Checks if the defender is still alive and sets their alive status to false if their life points are equal to or less than zero.
+     *
+     * @param defender the character being attacked
+     */
     public void checkLifeCharacter(Character defender) {
         if (defender.getLifePoints() <= 0) {
             defender.setAlive(false);
